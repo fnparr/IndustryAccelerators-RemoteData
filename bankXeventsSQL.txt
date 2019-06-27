@@ -1,0 +1,63 @@
+--  This file contains SQL commands setting up an IBM DB2 Warehouse on Cloud instance with data 
+--  used in ICPD IA examples and tutorials relating to the Banking industry
+--  for the client insight  Life Events prediction analytics
+--  COPYRIGHT  IBM  - Author Francis Parr  April 2019 
+--   Tables used in the Bank X example of simple data virtualization for analytics 
+
+-- The following sequence of SQL commands creates and populate with data from EVENTS, the Bank X
+--  tables owned by different Bank X division US WEST, US EASTS, EUROPE. Each has its own slightly
+--  different column names and conventions - to be unified in a subsequent manual data virtualization step
+
+-- this script assumes that the EVENTS table has already been created and loaded with data from a csv source
+--  following the instructions in step 4 of the tutorial guide for Life Event Prediction witha remote data source.
+--   The regional tables EVENTS_USW, EVENTS_USE and EVENTSEUR are created by the following script and populated
+-- by partioning the information previously loaded into the EVENTS table.
+
+--  create the EVENTS_USW table with division specific column names  
+CREATE TABLE EVENTS_USW (
+       CUSTOMER_ID 		INTEGER,
+       USW_EVENT_DATE       	DATE,
+       USW_EVENT_TYPE_ID  	VARCHAR(255)
+   );
+
+--  populate the EVENT_USW table with partioned ( mod 3) data from base EVENTS
+INSERT INTO EVENTS_USW
+      ( CUSTOMER_ID, USW_EVENT_DATE, USW_EVENT_TYPE_ID )
+      SELECT  CUSTOMER_ID, EVENT_DATE, EVENT_TYPE_ID
+      FROM EVENTS
+      WHERE  MOD(CUSTOMER_ID,3) = 0 ;
+
+--  create the EVENTS_USE table with division specific column names
+CREATE TABLE EVENTS_USE (
+       CUSTOMER_ID              INTEGER,
+       USE_EVENT_DATE           DATE,
+       USE_EVENT_TYPE_ID        VARCHAR(255)
+   );
+
+--  populate the EVENTS_USE table with partitioned (mod 3 ) data from base EVENTS
+INSERT INTO EVENTS_USE
+      ( CUSTOMER_ID, USE_EVENT_DATE, USE_EVENT_TYPE_ID )
+      SELECT  CUSTOMER_ID, EVENT_DATE, EVENT_TYPE_ID
+      FROM EVENTS
+      WHERE  MOD(CUSTOMER_ID,3) = 1 ;
+
+--  create the EVENTS_EUR table with division specific column names 
+CREATE TABLE EVENTS_EUR (
+       CUSTOMER_ID              INTEGER,
+       EUR_EVENT_DATE           DATE,
+       EUR_EVENT_TYPE_ID        VARCHAR(255)
+   );
+
+--  populate the EVENT_EUR table with non null, non duplicated data from base EVENTS
+INSERT INTO EVENTS_EUR 
+      ( CUSTOMER_ID, EUR_EVENT_DATE, EUR_EVENT_TYPE_ID )
+      SELECT  CUSTOMER_ID, EVENT_DATE, EVENT_TYPE_ID
+      FROM EVENTS
+      WHERE  MOD(CUSTOMER_ID,3) = 2  ;
+
+--  Additional SQL individual commands useful for checking resulting tables 
+select * from events where customer_id=1975;
+
+select count(*) from events;
+
+

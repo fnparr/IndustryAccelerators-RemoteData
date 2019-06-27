@@ -1,0 +1,64 @@
+
+--  This file contains SQL commands setting up an IBM DB2 Warehouse on Cloud instance with data 
+--  used in ICPD IA examples and tutorials relating to the Banking industry
+--  for the client insight   customer Segmentation analytics
+--  COPYRIGHT  IBM  - Author Francis Parr  April 2019 
+--   Tables used in the Bank X example of simple data virtualization for analytics 
+
+--  The following sequence of SQL commands creates and populates with data from FCH1 
+--  ( the table of full Customer History information), the Bank X
+--  tables owned by different Bank X divisions US WEST, US EASTS, EUROPE.  The data from the regional
+--  tables FCH_USW, FCH_USE and FCH_EUR can be used for Customer Segmentation analytics. The example shows
+--  how to discover and import these data assets into ICPD and use logic in a ICPD Jupyter notebook to union 
+--  the data from these different regional tables as source information for the Customer Segmentation analytics 
+--  Since the customer history data has approx 300 columns, we simplify the example by creating regional customer 
+--  customer History tables with identical column structure. The techniques of the ICPD regularizing column names 
+--  for the Live Event prediction ICPD IA could be applied if in practise there were differences in column structure 
+-- between the different regions . 
+
+-- this script assumes that the table  FCH1 has already been created and loaded with customer hostorydata from a 
+--  following the instructions in Step 4 of the tutorial guide. 
+--  This SQl script is used in Step 5 of the tutorial where regional Customer history tables are created and populated.
+--  The regional tables FCH_USW, FCH_USE and FCH_EUR are created by the following script and populated
+--  by partioning the information previously loaded into the FCH1 table.
+
+--  step 1 create the FCH_USW table 
+
+create table FCH_USW like FCH1;  
+
+-- populate with  1/3 of the customer records from FCH1
+insert into FCH_USW 
+   select * FROM FCH1 
+      where MOD(CUSTOMER_CUSTOMER_ID,3)= 0;  
+  
+ --  check success 
+ 
+ select count(*) from FCH_USW ;
+
+--  step 2 create the FCH_USE table 
+
+create table FCH_USE like FCH1;  
+
+-- populate with different 1/3 of the customer records from FCH1
+
+insert into FCH_USE 
+   select * FROM FCH1 
+      where MOD(CUSTOMER_CUSTOMER_ID,3)= 1;  
+ 
+ --  check success 
+ select count(*) from FCH_USE ;
+ 
+ --  step 2 create the FCH_EUR table 
+ 
+ create table FCH_EUR like FCH1;  
+
+-- populate with final 1/3 of the customer records from FCH1
+
+insert into FCH_EUR 
+   select * FROM FCH1 
+      where MOD(CUSTOMER_CUSTOMER_ID,3)= 2;  
+ 
+ --  check success 
+ 
+ select count(*) from FCH_EUR ;
+ 
