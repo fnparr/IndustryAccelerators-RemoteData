@@ -1,8 +1,16 @@
-<h1> IBM Cloud Private for Data Industry Accelerators: Importing and Cataloging Sample Datasets </h1>
-This directory contains materials relating to setting up sample data sets for use by the Industry Accelerator (IA) models and getting sample data sets imported and cataloged into an IBM Cloud Private for Data (ICP for Data) instance.
+<h1> Cloud Pak for Data Industry Accelerators: Importing and Cataloging Sample Datasets </h1>
+<h2> Overview of Tutorial </h2>
+This directory contains materials needed for the Remote Data Load Tutorial explaining how to set up and import sample data sets from a remote location for use with the Cloud Pak for Data Industry Accelerator (IA) models. 
 <br>
 <br>
-This is a necessary step in any testing and validation of the predictive model pipeline provided in the Industry Accelerators. It can be a path for an ICPD IA user to add their own sample data into an ICPD instance and run that data through the provided models. It provides a pattern for linking ICP for Data to an existing enterprise data warehouse of any type and importing data from that into an ICP for Data instance in order to either run the provided predictive models or develop new analytics models.
+The  Artificial Intelligence / Machine Learning (AI/ML) models for Customer Life Event prediction and Customer Segmentation Churn provided as  IBM Cloud Pak for Data Industry Accelerators need to be trained with source data. A local copy of sample source dta fpr training these models is provided with the INdustry Accelerator add-ons to Cloud Pak for Data. This tutorial is an optional extension showing how to import training data from a remote source into a Cloud Pak for Data instance and use the imported data to train the model. Any user who wants to explore use of the AI/ML models provided in the Industry Accelerators but want import their own data from a remote data warehouse to train and deploy models in Cloud Pak for data can follow the step by step instructions in this tutorial. 
+
+The guidance covers: 
+*  Specific steps to create a very simple data warehouse in IBM Public Cloud and populate it with the sample data used to train Custom Life Event Prediction and Customer Segmentation models provided as Cloud Pak for Date Industry Accelerators
+*  Step by step guidance on (1) connecting a Cloud Pak for Data instance to this sample data warehouse (2) discovering and importing sample data from the remote data location for use in a Cloud PAk for Data analytics project 
+*  Pointers to optional Jupyter notebooks for data reorganization provided as part of the Cloud Pak for Data Life Event Prediction and Customer Segmentation Industry accelerator add-ons; these notebooks handle differences between data schemas used in the remote data warehouse and data organization expected for analytic model training. 
+
+Working through this tutorial will teach users a set of tools and techniques and patterns for connecting AI/ML analytic models they are exploring, training and deploying in Cloud Pak for Data with imported data from their existing enterprise data warehouses and operational business systems. 
 
 <h2> Architecture and Rationale </h2>
 <p>
