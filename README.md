@@ -7,7 +7,7 @@ The  Artificial Intelligence / Machine Learning (AI/ML) models for Customer Life
 
 The guidance covers: 
 *  Specific steps to create a very simple data warehouse in IBM Public Cloud and populate it with the sample data used to train Custom Life Event Prediction and Customer Segmentation models provided as Cloud Pak for Date Industry Accelerators
-*  Step by step guidance on (1) connecting a Cloud Pak for Data instance to this sample data warehouse (2) discovering and importing sample data from the remote data location for use in a Cloud PAk for Data analytics project 
+*  Step by step guidance on (1) connecting a Cloud Pak for Data instance to this sample data warehouse (2) discovering and importing sample data from the remote data location for use in a Cloud Pak for Data analytics project 
 *  Pointers to optional Jupyter notebooks for data reorganization provided as part of the Cloud Pak for Data Life Event Prediction and Customer Segmentation Industry accelerator add-ons; these notebooks handle differences between data schemas used in the remote data warehouse and data organization expected for analytic model training. 
 
 Working through this tutorial will teach users a set of tools and techniques and patterns for connecting AI/ML analytic models they are exploring, training and deploying in Cloud Pak for Data with imported data from their existing enterprise data warehouses and operational business systems. 
@@ -21,23 +21,23 @@ The architecture for sample data import and catalog is illustrated in the follow
 <h3> Rationale </h3>
 The benefits of organizing  the sample data import steps in this way include: 
 
-*  Typical environments will already have an existing enterprise data warehouse hosting their data outside of ICPD.
-*  Provisioning a Db2 Warehouse on Cloud in IBM Public Cloud is a low touch approach to providing access to ICPD IA sample data and metadata.
-*  This approach creates a low touch path for ICP4D IA customer to introducde their own sample data and metadata and experiment with processing it using the ICP4D IA advanced analytical models.
+*  Typical environments will already have an existing enterprise data warehouse hosting their data outside of Cloud Pak for Data (CP4D).
+*  Provisioning a Db2 Warehouse on Cloud in IBM Public Cloud is a low touch approach to providing access to Cloud Pak for Data Industry Accelerator (CP4D_IA) sample data and metadata.
+*  This approach creates a low touch path for a CP4D_IA user to introducde their own sample data and metadata and experiment with processing it using the CP4D_IA advanced analytical models.
 </p>  
 
-<h2>  Prerequisites to execute this data load and ICP for Data import flow </h2>
-To work with remote data sourcing for any of the ICP4D IA you will need:
+<h2>  Prerequisites to execute this data load and Cloud Pak for Data import flow </h2>
+To work with remote data sourcing for any of the CP4D Industry Accelerators you will need:
   
- * An a user account with **admin** priviledge on a provisioned ICP4Data instance 
-     * Since you will be discvering and importing data assets from a remote source and making them visible in the ICPD catalog to all users of the ICPD instance **admin** priviledge is required.  
+ * An a user account with **admin** priviledge on a provisioned CP4D instance 
+     * Since you will be discovering and importing data assets from a remote source and making them visible in the CP4D catalog to all users of the ICPD instance **admin** priviledge is required.  
  * An account on IBM Public Cloud.
-     * This can be a free IBM Cloud if the ICP4D IA models are being used for tutorial purposes.  
+     * This can be a free IBM Cloud account if the CP4D_IA models are being used for tutorial purposes.  
      
- If you are only executing the advanced analytics examples for life Event prediction, Customer Customer Churn ad customer segmentation with local Add-on porvided csv sample input data, a **Data Scientist**  or **Data Engineer** role account on an ICPD instance is sufficient, since running the analytics locally makes no use of or updates to the ICP for Data catalog.       
+ If you are only executing the advanced analytics examples for Customer Life Event prediction, Customer Churn and Customer Segmentation  Add-ons with locally provided csv sample training data (no data import operations), a **Data Scientist**  or **Data Engineer** role account on an ICPD instance is sufficient, since running the analytics locally makes no use of or updates to the CP4D catalog.       
   
-<h2>  Overview of steps in the the data load and ICP for Data import process</h2>
-The sequence of steps required to set up an example data warehouse, install data and then import it into the ICPD catalog can be summarized as follows: 
+<h2>  Overview of steps in the data import into Cloud Pak for Data process</h2>
+The sequence of steps required to set up an example data warehouse, install data and then import it into the CP4D catalog can be summarized as follows: 
   
 Starting from an IBM Public Cloud account: 
 1.   Provision  Db2 Warehouse on Cloud.
@@ -52,7 +52,7 @@ Starting from an IBM Public Cloud account:
 <h2>  Db2 Warehouse on Cloud Setup and Load Sample Tables </h2>
 A useful reference for the Db2 Warehouse on Cloud provisioning and sample table creation is provided in the IBM Public Cloud tutorial:  [SQL Database for Cloud Data](https://cloud.ibm.com/docs/tutorials?topic=solution-tutorials-sql-database#sql-database)
  
-We follow the Db2 Warehouse provisioning, table create, and load steps from this tutorial.  After table creation and validation the tutorial goes on to install and then deploy a python application. For our purposes of getting table data and metadata loaded into ICPD, no application is needed. ICPD is able to connect to the Db2 Warehouse on Cloud directly to discover and import assets.
+We follow the Db2 Warehouse provisioning, table create, and load steps from this tutorial.  After table creation and validation the tutorial goes on to install and then deploy a python application. For our purposes of getting table data and metadata loaded into CP4D, no application is needed.  CP4D is able to connect to the Db2 Warehouse on Cloud directly to discover and import assets.
 
 <h3> Step 1: Create an Instance of Db2 Warehouse on Cloud Service </h3>
   
@@ -97,7 +97,7 @@ You will need to create and keep handy for use in several steps below credential
     *  This is the userid set up and saved from step 2 of inspecting the data warehouse credentials.
 *  Select this schema.
 
-To define a new table we will need the table name and a set of column name column type pairs. This approach can be used to load any csv data into the warehouse. The important case for working with ICPD IA example is to show how to load the sample data files used in the ICPD IA  advanced analytical models for Life event prediction, customer attrition and Customer segmentation. Sample data for these models is available at:
+To define a new table we will need the table name and a set of column name column type pairs. This approach can be used to load any csv data into the warehouse. The important case for working with CP4D_IA models is to show how to load the sample training data files into the models for Customer Life Event prediction and Customer Sets.  The sample training dat files are available at :
  [IA_sample-data-sets](../data-sets)  . 
 
 
@@ -120,9 +120,9 @@ The next step is to load the newly created table, either EVENTS or FCH1 ( in the
 * for life event prediction  analytics, sample data source is [event.csv](../../datasets/event.csv) 
 * for customer segmentation and customer churn analytics sample data source is [full_customer_history.csv](../../datasets/customer_full_summary_latest.csv) 
 
-After this source data setup in steps 6 - 8 in the demo/tutorial we will describe how to discover and read from this remote data asset in ICP for Data and use the resulting data to train and score AI/ ML Models executing in ICP For Data.  
+After this source data setup in steps 6 - 8 in the demo/tutorial we will describe how to discover and read from this remote data asset in CP4D and use the resulting data to train scroe and deply score AI/ ML Models CP4D.  
 
-This provides a *pattern* for how to get an ICP for Data advanced analytics model to read and use remote data a common situation when ICP for Data is used to provide scalable analytics using data from an existing Enterprise Data warehouse. 
+This provides a *pattern* for how to get an ICP for Data advanced analytics model to read and use remote data a common situation when CP4D is used to provide scalable analytics using data from an existing Enterprise Data warehouse. 
 
 <h4> Steps to load smaple data into new table </h4> 
 
@@ -176,7 +176,7 @@ For example
    *  in the lower left panel, success o parsing the command 
    *  in the lower right panel, success of executing and the result returned from the command.
 
-Next we describe how to use this RUN SQL capability to automate setting up a  more complex set of *regional*  EVENT tables used in the ICPD IA data virtualization demo. 
+Next we describe how to use this RUN SQL capability to automate setting up a  more complex set of *regional*  EVENT tables used in the CP4D IA remote data import.  
 
 The motivating context for this is illustrated in the diagram below. 
 
@@ -192,10 +192,10 @@ Tables EVENTS_USW, EVENTS_USE,EVENTS_EUR are created for regional EVENTS, and si
 These SQL script files can be copied and pasted into the scratchpad aread of the **Run SQL** panel, selected and executed.
 The effect will be to initialize  regional tables for EVENTS or CUSTOMER HISTORIES. This represent a typical situation in a remote source data warehouse, with data organized to match operational business needs of different organizations in the enterprise. 
 
-We will use these regional table structures to show a simple data virtualization / date regularizatio front end executing in ICPD in a Jupyter notebook in order to assemble a large training set for a AI/ML analytics models. Since we do this for both events and  customer History data, the life event prediction and customer segmentation analytics are each covered. Since Customer Churn analytics also is sourced entirely from customer history data. the same data regularization/virtualization pattern could be applied in that case also. 
+We will use these regional table structures to show a simple data virtualization / date regularizatio front end executing in CP4D in a Jupyter notebook in order to assemble a large training set for a AI/ML analytics models. Since we do this for both events and  customer History data, the life event prediction and customer segmentation analytics are each covered. Since Customer Churn analytics also is sourced entirely from customer history data. the same data regularization/virtualization pattern could be applied in that case also. 
 
-<h3> Step 6: Set up the ICPD connection allowing discovery and import of remote data assets </h3>
-A feature of ICPD is that  connections can be defined to access sources of data assets as remode services and data warehouses.  We next describe the detailed steps to set up an ICPD connection to the Db2 Warehouse on cloud instance we have establish in the preceding steps of this tutorial.  These steps assume that you have set up a project within ICPD, specifically the "Life Event Prediction" Industry Accelerator.
+<h3> Step 6: Set up the CP4D connection allowing discovery and import of remote data assets </h3>
+A feature of CP4D is that  connections can be defined to access sources of data assets as remode services and data warehouses.  We next describe the detailed steps to set up an ICPD connection to the Db2 Warehouse on cloud instance we have establish in the preceding steps of this tutorial.  These steps assume that you have set up a project within ICPD, specifically the "Life Event Prediction" Industry Accelerator.
 
 *  Logon to your ICPD instance and open the _"Life Event Prediction"_ project.
 *  __Add Data Source.__  From your project, select __Data Sources__ and __Add Data Source.__
@@ -212,10 +212,10 @@ There was a detailed description in Step 2 of this guide  how to display the Db2
 *  The credential includes a "*username*" field with a value of the form "dash99999"; copy and paste this into the *usename* field in ICPD **Add connection** panel. 
 *  It also includes  a "*password*" field whose value will be a string; this should be copied and pasted into the corresponding ICPD **Add connection** field 
 
-If you are connecting ICPD to some other  preexisting Data warehouse you will need to know its ipaddress, port on which it listens for connection requests, database name and valid userod and password values.  You need to enter this information into cirresponding fields in the ICPD **Add connection** panel. 
+If you are connecting CP4D to some other  preexisting Data warehouse you will need to know its ipaddress, port on which it listens for connection requests, database name and valid userod and password values.  You need to enter this information into cirresponding fields in the CP4D **Add connection** panel. 
 
 With these fields completed the **Test connection**  button at the bottom right side of the ICPD **Add connection** panel will be enabled.
-Use this for ICPD to perform a level of connection validation. If this succeeds, the **Add** button is enabled. Use this to add the new connection to the list of connections available in ICPD. 
+Use this for CP4D to perform a level of connection validation. If this succeeds, the **Add** button is enabled. Use this to add the new connection to the list of connections available in CP4D. 
 ---
 
 ![fig title](add_connection.png)
@@ -227,12 +227,12 @@ Use this for ICPD to perform a level of connection validation. If this succeeds,
 
 ---
 
-<h3> Step 7: Request ICPD to discover and import assets on a source data connection </h3>
-In this step you request ICPD to discover available data assets in one or more named schemas accessible through a specified data connection, import the data, and catalog it in the ICPD catalog. In the process the discovered assets will be automatically categorized and tagged using glossary terms which have been imported into the ICPD catalog as part of the Industry Accelerator. 
+<h3> Step 7: Request CP4D to discover and import assets on a source data connection </h3>
+In this step you request CP4D to discover available data assets in one or more named schemas accessible through a specified data connection, import the data, and catalog it in the CP4D catalog. In the process the discovered assets will be automatically categorized and tagged using glossary terms which have been imported into the CP4D catalog as part of the Industry Accelerator install. 
 
 Steps:
-*  Open the ICPD asset discovery window to set up the discovery path.
-   *   In the drop down command menu in top left corner of ICPD dashboard title bar.
+*  Open the CP4D asset discovery window to set up the discovery path.
+   *   In the drop down command menu in top left corner of CP4D dashboard title bar.
    *   Select **Organize**.
    *   Select **Discover assets**.
 *   The **Discover assets**  panel requires you to select from a list of connections:
@@ -256,16 +256,16 @@ Make sue both the **Assign business terms** and the **Analyze data quality** tas
   
 This will look for column names matching glossary business terms in the Catalog and cause the metadat of the imported datasets in the Catalof to be associated with these terms - making them easier ti locate in the ICPD catalog when a given analytics / modelling effort begins. The automatic assignment of terms to dataset columns also utilizes the predefined mappings that were imported to Catalog with the Industry Accelerator. 
 
-At this point the **discover** button  at bottom right of the **Discover assets** panel will be enabled.  Clisk on this button. 
+At this point the **discover** button  at bottom right of the **Discover assets** panel will be enabled.  Click on this button. 
 There will be a warning that data discovery and import may take time, then the process will start. 
 
 After  successful import of the data: 
-   *  ICPD reports successful import 
-   *  imported tables from the remote schema are now visible in the ICPD catalog  
+   *  CP4D reports successful import 
+   *  imported tables from the remote schema are now visible in the CP4D catalog  
    *  columns from the imported tables have been automatically associated with Industry glossary terms in the ICPD catalog
    *  if the columns names of the imported tables match exactly those from the sample datasets provided in Industry Accelerator then all of the business glossary terms assigments provided with the Industry Accelerator are replicated for the imported datasets columns
   
-<h4>ICPD reports successful import </h4>
+<h4>CLoud Pak for Data reports successful import </h4>
   
 ![Discover-Assets-02-Finished](Discover-Assets-02-Finished.JPG)
 <br><br><br>
@@ -300,21 +300,23 @@ by selecting one the choices below.
 
 <h4> Execute Life events model with provided sample data </h4>
 
-*  Install Life events ICPD add-on project 
+*  Install Life events CP4D_IA add-on projects for Customer Life Event Prediction and Customer Segmentation
+    *  this will also install relate terms and glossaies into the CP4D Catalog 
 *  Execute model using provided sample csv data in project ; view dashboards
 
 <h4> Follow tutorial steps to set up a remote repository sample source data importe and used by ICPD analytics </h4>
 
- *  Using an IBM public cloud account, provision a DB2 Warehouse on Cloud Instance - the "lite" version can be provisioned on demand, is free ad is sufficient to run this ICPD IA examples. 
+ *  Using an IBM public cloud account, provision a DB2 Warehouse on Cloud Instance - the "lite" version can be provisioned on demand, is free ad is sufficient to run this CP4D_IA examples. 
  *  Create sample source data tables in this Data Warehouse
  *  read in sample source data in csv files to  populate these tables 
- *  Set up a connection from ICPD to access this remote data 
- *  Have ICP For Data discover  and import assets accessible via this connection
- *  The  imported datasets can be automatically tagged using  industry specific terms and glossary -  and published in the ICPfro Data catalog with the resultingtags 
- *  Ths imported source data can be used to train and score advanced analytics modes for life event prediction, Customer segmentation and customer shurn running in ICP For Data. 
- *  An initial step of data regularization, data virtualization performed in Jupyter notebook in ICP Fro Data is a convenient way to organize incoming information to get best value out of advanced AI/ML analytics executing in ICP For data 
+ *  Set up a connection from CP4D to access this remote data 
+ *  Have CP4D discover  and import assets accessible via this connection
+ *  The  imported datasets can be automatically tagged using  industry specific terms and glossary -  and published in the CP4D catalog with the resulting tags 
+ *  Ths imported source data can be used to train and score advanced analytics modes for life event prediction, Customer segmentation and customer shurn running in CP4D. 
+ *  An initial step of data regularization, data virtualization performed in Jupyter notebook in CP4D is a convenient way to organize incoming information to get best value out of advanced AI/ML analytics executing in CP4D. 
  
-This second option - setin up a remote data source for the remote ICP fro DATA advanced analytics: 
-*  Clearly establishes the pattern for user to connect ICPD models to their own preexisting ( possibly not IBM ) enterprise data warehouses.
+This second option - setting up a remote data source for the remote CP4D advanced analytics: 
+*  Clearly establishes the pattern for user to connect CP4D models to their own preexisting ( possibly not IBM ) enterprise data warehouses.
 *  User can add their own data into pipeline
-*  Automatic tagging of discovered data sets with Banking model terms help organize and locate datasets relevant to Industry specific ctegories of analytics executing in ICPD. 
+*  Automatic tagging of discovered data sets with Banking model terms help organize and locate datasets relevant to Industry specific ctegories of analytics executing in CP4D. 
+*  Since The CP4D_IA for Customer Attrition uses the same same schema for training data as CP4D_IA for Customer Segmentation, the interested user can set up data import and a Jupyter notebook for reorganizing anf feeding remote sampe training data into that analytic mode aslo patterned on the data reorganizatin notebook provided with the Customer Segmentation Industry Accelerator add-on.
